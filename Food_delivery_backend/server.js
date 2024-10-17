@@ -10,7 +10,11 @@ const app = express(); // Initialize Express app
 // const PORT = 3000;
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors({
+  origin: ["https://deploy-mern-1whq.vercel.app"],,
+  methods:["POST" ,"GET"],
+  credentials:true
+}));
 
 // Middleware for parsing JSON
 app.use(bodyParser.json());
