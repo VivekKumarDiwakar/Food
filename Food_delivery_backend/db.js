@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
 
-const mongoDB_URL = "mongodb://localhost:27017/Login";
+// const mongoDB_URL = "mongodb://localhost:27017/Login";
+const mongoURL = process.env.MONGODB_URL;
 
-mongoose.connect(mongoDB_URL);
+mongoose.connect(mongoURL);
 
 const db = mongoose.connection;
 // Drop the collection

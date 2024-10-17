@@ -4,15 +4,19 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const Food = require("./models/Food"); // Import the Food model
 const cors = require("cors"); // Import cors
+require('dotenv').config();
 
 const app = express(); // Initialize Express app
-const PORT = 3000;
+// const PORT = 3000;
 
 // Enable CORS for all routes
 app.use(cors());
 
 // Middleware for parsing JSON
 app.use(bodyParser.json());
+
+const PORT = process.env.PORT || 3000
+
 
 // Middleware to log requests
 const logRequest = (req, res, next) => {
@@ -32,10 +36,28 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+
+   app.get("/" , async (req ,res) =>{
+    res.status(200).json({message : "Hi kya hal hai"});
+   })
+
+   app.get('/register', async (req, res) => {
+    try {
+        const users = await Food.find(); // Retrieves all users
+        res.json(users); // Send the retrieved users as a JSON response
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
+
 // POST Route to Create a New Customer
 app.post("/register", async (req, res) => {
+
   try {
     const { Email, password } = req.body; // Get Email and password from request body
+
 
     // Validate input
     if (!Email || !password) {
@@ -98,6 +120,8 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
 
 
 
